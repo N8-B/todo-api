@@ -112,6 +112,16 @@ app.put('/todos/:id', function (req, res) {
   });
 });
 
+app.post('/users', function (req, res) {
+  var newUser = _.pick(req.body, 'email', 'password');
+
+  db.user.create(newUser).then(function (user) {
+    res.json(user.toJSON());
+  }, function (error) {
+    res.status(400).json(error);
+  });
+});
+
 db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
     console.log('Express server running on localhost:' + PORT);
